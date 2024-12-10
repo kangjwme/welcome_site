@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>入口網站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding-top: 60px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .datetime {
+            margin-right: 30px;
+            font-size: 1em;
+        }
+
+        .toggle-mode {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #444;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            z-index: 1001;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .toggle-mode:hover {
+            background-color: #666;
+        }
+
+        .section {
+            width: 80%;
+            max-width: 1080px;
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            margin: 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .link-item {
+            display: flex;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .link-item:hover {
+            background-color: #ddd;
+        }
+
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        header.dark-mode {
+            background-color: #222;
+        }
+
+        .dark-mode .section-title {
+            background-color: #444;
+            color: #fff;
+        }
+
+        .dark-mode .link-item {
+            background-color: #444;
+            color: #fff;
+        }
+
+        .dark-mode .link-item:hover {
+            background-color: #555;
+        }
+
+        /* 手機版樣式調整 */
+        @media (max-width: 768px) {
+            .link-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+
+            // 轉換到台灣時區 (GMT+8)
+            const taiwanTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Taipei" }));
+
+            const days = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+            const year = taiwanTime.getFullYear();
+            const month = taiwanTime.getMonth() + 1; // 月份從 0 開始，所以要 +1
+            const day = taiwanTime.getDate();
+            const dayOfWeek = days[taiwanTime.getDay()];
+            const hours = String(taiwanTime.getHours()).padStart(2, '0');
+            const minutes = String(taiwanTime.getMinutes()).padStart(2, '0');
+            const seconds = String(taiwanTime.getSeconds()).padStart(2, '0');
+
+            document.getElementById("dateTime").innerHTML = `${year} 年 ${month} 月 ${day} 日 ${dayOfWeek} ${hours}:${minutes}:${seconds}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('links.json')
+                .then(response => response.json())
+                .then(data => {
+                    const parentElement = document.body;
+
+                    data.sections.forEach(section => {
+                        // 創建 section 容器
+                        const sectionDiv = document.createElement('div');
+                        sectionDiv.className = 'section';
+
+                        // 創建 section 標題
+                        const sectionTitleDiv = document.createElement('div');
+                        sectionTitleDiv.className = 'section-title';
+                        sectionTitleDiv.textContent = section.title;
+                        sectionDiv.appendChild(sectionTitleDiv);
+
+                        // 創建 link-grid 容器
+                        const linkGridDiv = document.createElement('div');
+                        linkGridDiv.className = 'link-grid';
+
+                        section.links.forEach(link => {
+                            // 創建 a 元素
+                            const linkItem = document.createElement('a');
+                            linkItem.href = link.url;
+                            linkItem.className = 'link-item';
+
+                            // 創建圖標容器並檢查是否有 icon 值
+                            if (link.icon) {
+                                const iconSpan = document.createElement('span');
+                                iconSpan.className = 'icon';
+
+                                // 創建 img 元素
+                                const img = document.createElement('img');
+                                img.src = link.icon;
+                                img.alt = link.name; // 設定圖片的 alt 屬性
+
+                                iconSpan.appendChild(img);
+                                linkItem.appendChild(iconSpan);
+                            }
+
+                            const linkText = document.createTextNode(link.name);
+                            linkItem.appendChild(linkText);
+
+                            linkGridDiv.appendChild(linkItem);
+                        });
+
+                        sectionDiv.appendChild(linkGridDiv);
+                        parentElement.appendChild(sectionDiv);
+
+                        // 添加收合折疊功能
+                        sectionTitleDiv.addEventListener('click', () => {
+                            linkGridDiv.style.display = linkGridDiv.style.display === 'none' ? 'grid' : 'none';
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching JSON data:', error);
+                });
+
+            // 亮/暗模式切換按鈕
+            const toggleModeButton = document.querySelector('.toggle-mode');
+            toggleModeButton.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                document.querySelector('header').classList.toggle('dark-mode');
+            });
+
+            // 更新時間
+            setInterval(updateDateTime, 1000);
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">入口網站</div>
+        <div id="dateTime" class="datetime"></div>
+    </header>
+    
+    <button class="toggle-mode">切換亮/暗模式</button>
+</body>
+</html>

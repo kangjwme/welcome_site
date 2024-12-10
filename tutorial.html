@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台灣趨勢研究 TWTREND</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .section {
+            width: 80%;
+            max-width: 1080px;
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            margin: 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .link-item {
+            display: flex;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .link-item:hover {
+            background-color: #ddd;
+        }
+
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        header.dark-mode {
+            background-color: #222;
+        }
+
+        .button-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-mode, .tutorial-button {
+            padding: 10px;
+            background-color: #444;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-mode:hover, .tutorial-button:hover {
+            background-color: #666;
+        }
+
+        /* 手機版樣式調整 */
+        @media (max-width: 768px) {
+            .link-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>台灣趨勢研究 TWTREND</header>
+    <div class="button-container">
+        <button class="tutorial-button">回到首頁</button>
+    </div>
+    
+    <div class="section">
+        <h4 class="section-title" id="google-chrome-">Google Chrome 設定首頁教學</h4>
+        <ol>
+            <li>打開 Google Chrome 瀏覽器。</li>
+            <li>點擊右上角的三個點圖標 (設定選單)。</li>
+            <li>選擇 &quot;設定&quot;。</li>
+            <li>在左側菜單中選擇 &quot;起始畫面&quot;。</li>
+            <li>選擇 &quot;開啟特定網頁或一組網頁&quot;，然後點擊 &quot;新增新網頁&quot;。</li>
+            <li>輸入 <code>http://192.168.1.136/welcome/</code> 並確認。</li>
+        </ol>
+    </div>
+
+    <!-- <div class="section">
+        <h4 class="section-title" id="google-chrome-">Google Chrome 設定新標籤頁教學</h4>
+        <ol>
+            <li>需要安裝一個擴充套件，如 &quot;Custom New Tab URL&quot;。</li>
+            <li>安裝後開啟擴充套件的設定頁，將 URL 設為 <code>http://192.168.1.136/welcome/</code>。</li>
+        </ol>
+    </div> -->
+
+    <div class="section">
+        <h4 class="section-title" id="microsoft-edge-">Microsoft Edge 設定首頁教學</h4>
+        <ol>
+            <li>打開 Microsoft Edge 瀏覽器。</li>
+            <li>點擊右上角的三個點圖標 (設定選單)。</li>
+            <li>選擇 &quot;設定&quot;。</li>
+            <li>在左側菜單中選擇 &quot;開始、首頁及新索引標籤&quot;。</li>
+            <li>選擇 &quot;開啟這些頁面&quot;，然後點擊 &quot;新增頁面&quot;。</li>
+            <li>輸入 <code>http://192.168.1.136/welcome/</code> 並確認。</li>
+        </ol>
+    </div>
+
+    <!-- <div class="section">
+        <h4 class="section-title" id="microsoft-edge-">Microsoft Edge 設定新標籤頁教學</h4>
+        <ol>
+            <li>點擊右上角的三個點圖標，選擇 &quot;擴充功能&quot;。</li>
+            <li>搜尋並安裝類似 &quot;Custom New Tab&quot; 的擴充套件。</li>
+            <li>安裝後，進入擴充套件的設定頁，將 URL 設為 <code>http://192.168.1.136/welcome/</code>。</li>
+        </ol>
+    </div> -->
+    
+    <script>
+
+    // 教學文章按鈕事件
+    const tutorialButton = document.querySelector('.tutorial-button');
+    tutorialButton.addEventListener('click', () => {
+        window.location.href = 'index.html'; // 假設教學文章的連結為 tutorial.html
+    });
+    </script>
+</body>
+</html>
